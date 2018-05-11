@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HappyCalendar.AreaPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="btnAdd" Order="Primary" Icon="plus.png" />
+        <ToolbarItem Name="btnAdd" Order="Primary" Icon="plus.png" Clicked="Handle_btnAdd" />
     </ContentPage.ToolbarItems>
     <StackLayout>
         <!--<StackLayout Orientation="Horizontal">
@@ -12,7 +12,7 @@
             <Button Text="Update" Clicked="OnUpdate" HorizontalOptions="CenterAndExpand" />
             <Button Text="Delete" Clicked="OnDelete" />
         </StackLayout>-->
-        <StackLayout>
+        <StackLayout x:Name="stkAddArea" IsVisible="False">
             <StackLayout>
             <TableView Intent="Form">
                 <TableSection>

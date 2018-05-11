@@ -67,6 +67,11 @@ namespace HappyCalendar
             lstArea.ItemsSource = names;*/
 		}
 
+        void Handle_btnAdd(object sender, System.EventArgs e)
+        {
+            stkAddArea.IsVisible = true;
+        }
+
         protected override async void OnAppearing()
         {
             await _connection.CreateTableAsync<Area>();
@@ -84,6 +89,7 @@ namespace HappyCalendar
             await _connection.InsertAsync(area);
             _areas.Add(area);
             txtAreaName.Text = "";
+            stkAddArea.IsVisible = false;
         }
 
         async void OnUpdate(object sender, System.EventArgs e)
