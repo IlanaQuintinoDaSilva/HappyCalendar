@@ -15,6 +15,17 @@ namespace HappyCalendar
 		public AreaPage ()
 		{
 			InitializeComponent ();
+
+            var names = new List<string>
+            {
+                "Finanças",
+                "Carreira",
+                "Vestuário",
+                "Amigos",
+                "Família"
+            };
+
+            lstArea.ItemsSource = names;
 		}
 	}
 }

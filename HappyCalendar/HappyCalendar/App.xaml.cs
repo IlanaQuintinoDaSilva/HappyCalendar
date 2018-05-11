@@ -13,7 +13,7 @@ namespace HappyCalendar
 		{
 			InitializeComponent();
 
-			MainPage = new HappyCalendar.AreaPage();
+			MainPage = new NavigationPage (new AreaPage());
 		}
 
 		protected override void OnStart ()
