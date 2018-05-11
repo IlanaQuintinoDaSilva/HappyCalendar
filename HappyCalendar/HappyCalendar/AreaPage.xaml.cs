@@ -79,9 +79,11 @@ namespace HappyCalendar
 
         async void OnAdd(object sender, System.EventArgs e)
         {
-            var area = new Area { Name = "Finanças" + DateTime.Now.Ticks};
+            //var area = new Area { Name = "Finanças" + DateTime.Now.Ticks};
+            var area = new Area { Name = txtAreaName.Text };
             await _connection.InsertAsync(area);
             _areas.Add(area);
+            txtAreaName.Text = "";
         }
 
         async void OnUpdate(object sender, System.EventArgs e)

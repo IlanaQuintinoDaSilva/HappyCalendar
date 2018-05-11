@@ -9,7 +9,9 @@ namespace HappyCalendar
 {
 	public partial class App : Application
 	{
-		public App ()
+        private const string TitleKey = "Name";
+
+        public App ()
 		{
 			InitializeComponent();
 
@@ -30,5 +32,20 @@ namespace HappyCalendar
 		{
 			// Handle when your app resumes
 		}
-	}
+
+        public string AreaName
+        {
+            get
+            {
+                if (Properties.ContainsKey(TitleKey))
+                    return Properties[TitleKey].ToString();
+                return "";
+            }
+            set
+            {
+                Properties[TitleKey] = value;
+            }
+        }
+
+    }
 }
