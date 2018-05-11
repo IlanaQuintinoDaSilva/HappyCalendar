@@ -3,7 +3,9 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,13 +14,33 @@ using Xamarin.Forms.Xaml;
 
 namespace HappyCalendar
 {
-    public class Area
+    public class Area : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
+        private string _name;
+
         [MaxLength(100)]
-        public string Name { get; set; }
+        public string Name {
+            get { return _name; }
+            set
+            {
+                if (_name == value)
+                    return;
+                _name = value;
+
+                OnPropertyChanged();
+            }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 
 	[XamlCompilation(XamlCompilationOptions.Compile)]
@@ -60,6 +82,20 @@ namespace HappyCalendar
             var area = new Area { Name = "Finanças" + DateTime.Now.Ticks};
             await _connection.InsertAsync(area);
             _areas.Add(area);
+        }
+
+        async void OnUpdate(object sender, System.EventArgs e)
+        {
+            var area = _areas[0];
+            area.Name += " UPDATED";
+            await _connection.UpdateAsync(area);
+        }
+
+        async void OnDelete (object sender, System.EventArgs e)
+        {
+            var area = _areas[0];
+            await _connection.DeleteAsync(area);
+            _areas.Remove(area);
         }
     }
 }
