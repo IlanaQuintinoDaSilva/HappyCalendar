@@ -1,15 +1,21 @@
 ﻿using HelloWorld.Persistance;
 using SQLite;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace HappyCalendar
+namespace HappyCalendar.OffLine
 {
-    public class Area : INotifyPropertyChanged
+
+    public class AreaOL : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -19,7 +25,8 @@ namespace HappyCalendar
         private string _name;
 
         [MaxLength(100)]
-        public string Name {
+        public string Name
+        {
             get { return _name; }
             set
             {
@@ -38,19 +45,17 @@ namespace HappyCalendar
 
     }
 
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AreaPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class AreaOffLine : ContentPage
 	{
         private SQLiteAsyncConnection _connection;
-        private ObservableCollection<Area> _areas;
-
-		public AreaPage ()
+        private ObservableCollection<AreaOL> _areas;
+        public AreaOffLine ()
 		{
 			InitializeComponent ();
 
             _connection = DependencyService.Get<ISQLiteDb>().GetConnection();
-
-		}
+        }
 
         void Handle_btnAdd(object sender, System.EventArgs e)
         {
@@ -59,10 +64,10 @@ namespace HappyCalendar
 
         protected override async void OnAppearing()
         {
-            await _connection.CreateTableAsync<Area>();
+            await _connection.CreateTableAsync<AreaOL>();
 
-            var areas = await _connection.Table<Area>().ToListAsync();
-            _areas = new ObservableCollection<Area>(areas);
+            var areas = await _connection.Table<AreaOL>().ToListAsync();
+            _areas = new ObservableCollection<AreaOL>(areas);
             lstArea.ItemsSource = _areas;
             base.OnAppearing();
         }
@@ -70,7 +75,7 @@ namespace HappyCalendar
         async void OnAdd(object sender, System.EventArgs e)
         {
             //var area = new Area { Name = "Finanças" + DateTime.Now.Ticks};
-            var area = new Area { Name = txtAreaName.Text };
+            var area = new AreaOL { Name = txtAreaName.Text };
             await _connection.InsertAsync(area);
             _areas.Add(area);
             txtAreaName.Text = "";
@@ -84,7 +89,7 @@ namespace HappyCalendar
             await _connection.UpdateAsync(area);
         }
 
-        async void OnDelete (object sender, System.EventArgs e)
+        async void OnDelete(object sender, System.EventArgs e)
         {
             var area = _areas[0];
             await _connection.DeleteAsync(area);

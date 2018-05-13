@@ -2,22 +2,22 @@
 <ContentPage Title="Área"
     xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HappyCalendar.AreaPage">
+             x:Class="HappyCalendar.OffLine.AreaOffLine">
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="btnAdd" Order="Primary" Icon="plus.png" Clicked="Handle_btnAdd" />
     </ContentPage.ToolbarItems>
     <StackLayout>
         <StackLayout x:Name="stkAddArea" IsVisible="False">
             <StackLayout>
-            <TableView Intent="Form">
-                <TableSection>
-                    <EntryCell x:Name="txtAreaName"  Placeholder="Área"/>
-                </TableSection>
-            </TableView>
-        </StackLayout>
+                <TableView Intent="Form">
+                    <TableSection>
+                        <EntryCell x:Name="txtAreaName"  Placeholder="Área"/>
+                    </TableSection>
+                </TableView>
+            </StackLayout>
             <StackLayout>
-            <Button Text="Salvar" Clicked="OnAdd"/>
-        </StackLayout>
+                <Button Text="Salvar" Clicked="OnAdd"/>
+            </StackLayout>
         </StackLayout>
         <ListView x:Name="lstArea">
             <ListView.ItemTemplate>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HappyCalendar.OffLine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,9 @@ namespace HappyCalendar
 		{
 			InitializeComponent();
 
-			MainPage = new NavigationPage (new AreaPage());
-		}
+            //MainPage = new NavigationPage (new AreaPage());
+            MainPage = new NavigationPage(new AreaOffLine());
+        }
 
 		protected override void OnStart ()
 		{
