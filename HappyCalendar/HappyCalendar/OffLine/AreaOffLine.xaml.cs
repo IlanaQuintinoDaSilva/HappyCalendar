@@ -1,4 +1,5 @@
-﻿using HelloWorld.Persistance;
+﻿using HappyCalendar.Models;
+using HelloWorld.Persistance;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -14,42 +15,12 @@ using Xamarin.Forms.Xaml;
 
 namespace HappyCalendar.OffLine
 {
-
-    public class AreaOL : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-
-        private string _name;
-
-        [MaxLength(100)]
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                if (_name == value)
-                    return;
-                _name = value;
-
-                OnPropertyChanged();
-            }
-        }
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-    }
-
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AreaOffLine : ContentPage
 	{
         private SQLiteAsyncConnection _connection;
-        private ObservableCollection<AreaOL> _areas;
+        private ObservableCollection<Area> _areas;
+
         public AreaOffLine ()
 		{
 			InitializeComponent ();
@@ -64,10 +35,10 @@ namespace HappyCalendar.OffLine
 
         protected override async void OnAppearing()
         {
-            await _connection.CreateTableAsync<AreaOL>();
+            await _connection.CreateTableAsync<Area>();
 
-            var areas = await _connection.Table<AreaOL>().ToListAsync();
-            _areas = new ObservableCollection<AreaOL>(areas);
+            var areas = await _connection.Table<Area>().ToListAsync();
+            _areas = new ObservableCollection<Area>(areas);
             lstArea.ItemsSource = _areas;
             base.OnAppearing();
         }
@@ -75,7 +46,7 @@ namespace HappyCalendar.OffLine
         async void OnAdd(object sender, System.EventArgs e)
         {
             //var area = new Area { Name = "Finanças" + DateTime.Now.Ticks};
-            var area = new AreaOL { Name = txtAreaName.Text };
+            var area = new Area { Name = txtAreaName.Text };
             await _connection.InsertAsync(area);
             _areas.Add(area);
             txtAreaName.Text = "";
