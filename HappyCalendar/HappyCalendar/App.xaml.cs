@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 using Xamarin.Forms;
@@ -16,14 +19,15 @@ namespace HappyCalendar
 		{
 			InitializeComponent();
 
-            //MainPage = new NavigationPage (new AreaPage());
-            MainPage = new NavigationPage(new AreaOffLine());
+            MainPage = new NavigationPage (new AreaPage());
+            //MainPage = new NavigationPage(new AreaOffLine());
         }
 
 		protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+            // Handle when your app starts
+
+        }
 
 		protected override void OnSleep ()
 		{
@@ -48,6 +52,7 @@ namespace HappyCalendar
                 Properties[TitleKey] = value;
             }
         }
+
 
     }
 }
